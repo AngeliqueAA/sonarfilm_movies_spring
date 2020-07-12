@@ -56,9 +56,7 @@ public class AlgoMovieFinder {
 			results.addAll(matchII);
 		}if (results.size()<movieLimit) {
 			results.addAll(nearlyMatchII);
-		}/*if (results.size()<movieLimit) {
-			results.addAll(rematchI);
-		}*/
+		}
 		
 		//List<Movie> noOtherMatch = movieRepository.findByFirstGenre(firstAnswer);
 		List<Movie> noOtherMatch = movieRepository.findBySecondNotFirst(secondAnswer, firstAnswer);
@@ -96,7 +94,7 @@ public class AlgoMovieFinder {
 				}	
 			}
 			
-			return results;
+			return results.subList(0, 20);
 			
 			
 		}
