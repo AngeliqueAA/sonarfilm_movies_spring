@@ -68,7 +68,7 @@ public class AlgoMovieFinder {
 		}
 		
 		if(results.isEmpty()) {
-			results.addAll( movieRepository.findByFirstGenreNot(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer));
+			results.addAll(movieRepository.findByFirstGenreNot(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer));
 			} 
 		
 		return results;
