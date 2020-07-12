@@ -49,7 +49,8 @@ public class MovieController {
 	//requestbody ici et pas pathvariable
 	@GetMapping(value = "/quizz/{firstAnswer}/{secondAnswer}/{thirdAnswer}/{fourthAnswer}")
 	public List<Movie> processQuizz(@PathVariable("firstAnswer") String firstAnswer, @PathVariable("secondAnswer") String secondAnswer, @PathVariable("thirdAnswer") String thirdAnswer, @PathVariable("fourthAnswer") String fourthAnswer) {
-		return new AlgoMovieFinder(movieRepository).whichMovie(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
+		List <Movie> quizzResults = new AlgoMovieFinder(movieRepository).whichMovie(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
+		return quizzResults.subList(0, 21);
 	}
 	
 }

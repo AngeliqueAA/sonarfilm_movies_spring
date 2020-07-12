@@ -81,7 +81,7 @@ MockMovieRepository mockRepo = new MockMovieRepository();
     		String movie = algoMovie.whichMovie("musical",  "musical", "musical","musical").get(0).getTitle();
     		
     		
-    		assertEquals(movie, "Grase");
+    		assertEquals(movie, "Grease");
     		
     	}  
       

@@ -75,30 +75,6 @@ public class AlgoMovieFinder {
 		
 		}
 
-		public List<Movie> whichMovieRedCode (int movieLimit, List<Movie> myMovies, String firstAnswer, String secondAnswer, String thirdAnswer, String fourthAnswer) {
-			
-			
-			List<Movie> results = new ArrayList<Movie>();
-			whichGenreSecond(myMovies, firstAnswer);
-			
-			List<Movie> noOtherMatchRoundI = new ArrayList<Movie>();
-			
-			for(Movie m : myMovies) {
-
-				String firstGenre = m.getFirstGenre();
-
-				if(!firstGenre.equals(secondAnswer))
-				{					
-					noOtherMatchRoundI.add(m);
-
-				}	
-			}
-			
-			return results.subList(0, 20);
-			
-			
-		}
-
 	public List<Movie> whichGenreSecond(List<Movie> myMovies, String search){
 
 		myMovies = movieRepository.findBySecondGenre(search);
