@@ -312,5 +312,11 @@ public class MockMovieRepository implements MovieRepository {
 		return null;
 	}
 
+	@Override
+	public List<Movie> findByDuration(String duration) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 }

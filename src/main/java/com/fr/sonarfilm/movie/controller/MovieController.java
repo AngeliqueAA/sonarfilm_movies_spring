@@ -56,7 +56,7 @@ public class MovieController {
 			  
 	}
 	
-	@GetMapping(value = "/quizz/{firstGenre}")
+	@GetMapping(value = "/search/first/{firstGenre}")
 	public List<MovieDTO> getMovieByFirstGenre(@PathVariable("firstGenre") String firstGenre) {
 		List<Movie> movies = movieRepository.findByFirstGenre(firstGenre);
 		return movies
@@ -66,7 +66,38 @@ public class MovieController {
 	}
 	
 	
+	@GetMapping(value = "/search/second/{secondGenre}")
+	public List<MovieDTO> getMovieBySecondGenre(@PathVariable("secondGenre") String secondGenre) {
+		List<Movie> movies = movieRepository.findBySecondGenre(secondGenre);
+		return movies
+				  .stream()
+		          .map(this::convertToDto)
+		          .collect(Collectors.toList());
+	}
+	
+ 
+	@GetMapping(value = "/search/movieId/{movieId}")
+	public List<MovieDTO> getMovieByMovieId(@PathVariable("secondGenre") Long movieId) {
+		List<Movie> movies = movieRepository.findByMovieId(movieId);
+		return movies
+				  .stream()
+		          .map(this::convertToDto)
+		          .collect(Collectors.toList());
+	}
+	
+	
+	
+	@GetMapping(value = "/search/duration/{duration}")
+	public List<MovieDTO> getMovieByDuration(@PathVariable("duration") String duration) {
+		List<Movie> movies = movieRepository.findByDuration(duration);
+		return movies
+				  .stream()
+		          .map(this::convertToDto)
+		          .collect(Collectors.toList());
+	}
 
+	
+	
 	@GetMapping(value = "/quizz/{firstAnswer}/{secondAnswer}/{thirdAnswer}/{fourthAnswer}")
 	public List<MovieDTO> processQuizz(@PathVariable("firstAnswer") String firstAnswer, @PathVariable("secondAnswer") String secondAnswer, @PathVariable("thirdAnswer") String thirdAnswer, @PathVariable("fourthAnswer") String fourthAnswer) {
 		List <Movie> quizzResults = new AlgoMovieFinder(movieRepository).whichMovie(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
