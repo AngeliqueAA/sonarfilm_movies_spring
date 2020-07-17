@@ -28,6 +28,7 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 	List<Movie> findByMovieId(Long movieId);
 	
 	
+	
 	/**
 	 * 
 	 * Personnalised Query
