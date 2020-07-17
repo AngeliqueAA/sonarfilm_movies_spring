@@ -49,7 +49,7 @@ public class MovieIntegrationTest {
 	}
 
 	@Test
-	public void testGetMovie() throws Exception {
+	public void GetMovieShouldReturnOk() throws Exception {
 
 		 Movie jumanji = new Movie("jumanji", "jumanji", "robin williams", "112", "action", "comedy", "1998", "adventure", "drama", "dangerous game", "tt12345", "no", "williams", "na", "na", 7, 9874L);
 
@@ -57,13 +57,49 @@ public class MovieIntegrationTest {
 
 		given(movieRepo.findByTitle(jumanji.getTitle())).willReturn(movie);
 
-		// Get Department
 
 		this.mockMvc
-				.perform(MockMvcRequestBuilders.get("/apimovies/{title}", "jumanji")
+				.perform(MockMvcRequestBuilders.get("/apimovies/title/{title}", "jumanji")
 				.accept(MediaType.APPLICATION_JSON))
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
 
 	}
+	
+	
+	@Test
+	public void GetAllMovieShouldReturnOk() throws Exception {
+
+		 Movie jumanji = new Movie("jumanji", "jumanji", "robin williams", "112", "action", "comedy", "1998", "adventure", "drama", "dangerous game", "tt12345", "no", "williams", "na", "na", 7, 9874L);
+
+		List<Movie> movie = Arrays.asList(jumanji);
+
+		given(movieRepo.findAll()).willReturn(movie);
+
+
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.get("/apimovies/")
+				.accept(MediaType.APPLICATION_JSON))
+				.andDo(print()).andExpect(status().isOk())
+				.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
+
+	}
+	
+	@Test
+	public void WrongPathShouldReturnERRORCLIENT() throws Exception {
+
+		 Movie jumanji = new Movie("jumanji", "jumanji", "robin williams", "112", "action", "comedy", "1998", "adventure", "drama", "dangerous game", "tt12345", "no", "williams", "na", "na", 7, 9874L);
+
+		List<Movie> movie = Arrays.asList(jumanji);
+
+		given(movieRepo.findByTitle(jumanji.getTitle())).willReturn(movie);
+
+
+		this.mockMvc
+				.perform(MockMvcRequestBuilders.get("/wrongpath/")
+				.accept(MediaType.APPLICATION_JSON))
+				.andExpect(status().is4xxClientError());;
+
+	}
+	
 }
