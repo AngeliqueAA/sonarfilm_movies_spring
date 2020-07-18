@@ -28,15 +28,15 @@ import com.fr.sonarfilm.movie.repositories.MovieRepository;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestInstance(Lifecycle.PER_CLASS)
 public class MovieIntegrationTest {
-	
+
 	private final static String URI = "/apimovies";
 
-	
+
 	private MockMvc mockMvc;
 
 	@MockBean
 	private MovieRepository movieRepo;
-	
+
 	@Autowired
 	private WebApplicationContext wac;
 
@@ -44,14 +44,16 @@ public class MovieIntegrationTest {
 	@BeforeAll
 	public void setup() {
 
-	this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
+		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 
 	}
+
+	Movie jumanji = new Movie("jumanji", "action", "adventure", "fantasy", "comedy", "jumanji", "robin williams", "112", "1998", "stuck in a game vanpelht killer", "tt18954", "pg-44", "colombus", "https", "robin comlombus", "1998-06-02", 7 ,2574L);
 
 	@Test
 	public void GetMovieShouldReturnOk() throws Exception {
 
-		 Movie jumanji = new Movie("jumanji", "jumanji", "robin williams", "112", "action", "comedy", "1998", "adventure", "drama", "dangerous game", "tt12345", "no", "williams", "na", "na", 7, 9874L);
+
 
 		List<Movie> movie = Arrays.asList(jumanji);
 
@@ -59,18 +61,18 @@ public class MovieIntegrationTest {
 
 
 		this.mockMvc
-				.perform(MockMvcRequestBuilders.get("/apimovies/title/{title}", "jumanji")
+		.perform(MockMvcRequestBuilders.get("/apimovies/title/{title}", "jumanji")
 				.accept(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk())
-				.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
+		.andDo(print()).andExpect(status().isOk())
+		.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
 
 	}
-	
-	
+
+
 	@Test
 	public void GetAllMovieShouldReturnOk() throws Exception {
 
-		 Movie jumanji = new Movie("jumanji", "jumanji", "robin williams", "112", "action", "comedy", "1998", "adventure", "drama", "dangerous game", "tt12345", "no", "williams", "na", "na", 7, 9874L);
+
 
 		List<Movie> movie = Arrays.asList(jumanji);
 
@@ -78,17 +80,73 @@ public class MovieIntegrationTest {
 
 
 		this.mockMvc
-				.perform(MockMvcRequestBuilders.get("/apimovies/")
+		.perform(MockMvcRequestBuilders.get("/apimovies/")
 				.accept(MediaType.APPLICATION_JSON))
-				.andDo(print()).andExpect(status().isOk())
-				.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
+		.andDo(print()).andExpect(status().isOk())
+		.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
 
 	}
-	
+
+	@Test
+	public void GetByFirstGenreShouldReturnOk() throws Exception {
+
+
+		List<Movie> movie = Arrays.asList(jumanji);
+
+		given(movieRepo.findByFirstGenre(jumanji.getFirstGenre())).willReturn(movie);
+
+
+		this.mockMvc
+		.perform(MockMvcRequestBuilders.get("/apimovies/search/first/{firstGenre}", "action")
+				.accept(MediaType.APPLICATION_JSON))
+		.andDo(print()).andExpect(status().isOk())
+		.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
+
+	}
+
+
+	@Test
+	public void GetBySecondGenreShouldReturnOk() throws Exception {
+
+
+		List<Movie> movie = Arrays.asList(jumanji);
+
+		given(movieRepo.findByFirstGenre(jumanji.getSecondGenre())).willReturn(movie);
+
+
+		this.mockMvc
+		.perform(MockMvcRequestBuilders.get("/apimovies/search/first/{firstGenre}", "adventure")
+				.accept(MediaType.APPLICATION_JSON))
+		.andDo(print()).andExpect(status().isOk())
+		.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
+
+	}
+
+
+	@Test
+	public void GetByDurationShouldReturnOk() throws Exception {
+
+
+		List<Movie> movie = Arrays.asList(jumanji);
+
+		given(movieRepo.findByDuration(jumanji.getDuration())).willReturn(movie);
+
+
+		this.mockMvc
+		.perform(MockMvcRequestBuilders.get("/apimovies/search/duration/{duration}", "112")
+				.accept(MediaType.APPLICATION_JSON))
+		.andDo(print()).andExpect(status().isOk())
+		.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
+
+	}
+
+
+
+
+
 	@Test
 	public void WrongPathShouldReturnERRORCLIENT() throws Exception {
 
-		 Movie jumanji = new Movie("jumanji", "jumanji", "robin williams", "112", "action", "comedy", "1998", "adventure", "drama", "dangerous game", "tt12345", "no", "williams", "na", "na", 7, 9874L);
 
 		List<Movie> movie = Arrays.asList(jumanji);
 
@@ -96,10 +154,10 @@ public class MovieIntegrationTest {
 
 
 		this.mockMvc
-				.perform(MockMvcRequestBuilders.get("/wrongpath/")
+		.perform(MockMvcRequestBuilders.get("/wrongpath/")
 				.accept(MediaType.APPLICATION_JSON))
-				.andExpect(status().is4xxClientError());;
+		.andExpect(status().is4xxClientError());;
 
 	}
-	
+
 }
