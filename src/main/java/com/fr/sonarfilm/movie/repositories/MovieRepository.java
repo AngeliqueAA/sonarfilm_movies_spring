@@ -50,6 +50,8 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 	List<Movie> findByFirstGenreAndSecondGenreAndThirdGenreNot(String firstGenre, String secondGenre,
 			String thirdGenre, String fourthGenre);
 	
+	List<Movie> findByDuration(String duration);
+	
 
 	
 	
