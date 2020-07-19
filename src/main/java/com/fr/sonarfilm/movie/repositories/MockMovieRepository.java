@@ -307,7 +307,7 @@ public class MockMovieRepository implements MovieRepository {
 	}
 
 	@Override
-	public List<Movie> findByMovieId(Long movieId) {
+	public Movie findByMovieId(Long movieId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

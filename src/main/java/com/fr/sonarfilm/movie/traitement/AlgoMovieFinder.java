@@ -25,38 +25,34 @@ public class AlgoMovieFinder {
 		
 		List<Movie> results = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreAndFourthGenre(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
 		List<Movie> almostPerfect = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreNot(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
-		List<Movie> nearlyPerfect = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreNot(firstAnswer, secondAnswer, fourthAnswer, thirdAnswer);
-		List<Movie> match = movieRepository.findByFirstGenreAndSecondGenreNot(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
+//		List<Movie> nearlyPerfect = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreNot(firstAnswer, secondAnswer, fourthAnswer, thirdAnswer);
+//		List<Movie> match = movieRepository.findByFirstGenreAndSecondGenreNot(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
 		List<Movie> endMatch = movieRepository.findByFirstGenreNotSecond(firstAnswer, secondAnswer);
 
 		//round I with second genre in first
 		
 		List<Movie> almostPerfectII = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreAndFourthGenre(secondAnswer, firstAnswer,  thirdAnswer, fourthAnswer);
 		List<Movie> nearlyPerfectII = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreNot(secondAnswer, firstAnswer, thirdAnswer, fourthAnswer);
-		List<Movie> matchII = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreNot(secondAnswer, firstAnswer,  fourthAnswer, thirdAnswer);
-		List<Movie> nearlyMatchII = movieRepository.findByFirstGenreAndSecondGenreNot(secondAnswer, firstAnswer, thirdAnswer, fourthAnswer);
+//		List<Movie> matchII = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreNot(secondAnswer, firstAnswer,  fourthAnswer, thirdAnswer);
+//		List<Movie> nearlyMatchII = movieRepository.findByFirstGenreAndSecondGenreNot(secondAnswer, firstAnswer, thirdAnswer, fourthAnswer);
 		
 		//List<Movie> rematchI = movieRepository.findByFirstGenreNot(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
 		
 		
 		if (results.size()<movieLimit) {
 			results.addAll(almostPerfect);}
+/*		if (results.size()<movieLimit) {results.addAll(nearlyPerfect);}if (results.size()<movieLimit) {
+			results.addAll(match);}*/
+		if (results.size()<movieLimit) {results.addAll(endMatch);}
 		if (results.size()<movieLimit) {
-			results.addAll(nearlyPerfect);
-		}if (results.size()<movieLimit) {
-			results.addAll(match);
-		if (results.size()<movieLimit) {
-				results.addAll(endMatch);
-		}
-		}if (results.size()<movieLimit) {
 			results.addAll(almostPerfectII);
 		}if (results.size()<movieLimit) {
 			results.addAll(nearlyPerfectII);
-		} if (results.size()<movieLimit) {
+		}/* if (results.size()<movieLimit) {
 			results.addAll(matchII);
 		}if (results.size()<movieLimit) {
 			results.addAll(nearlyMatchII);
-		}
+		}*/
 		
 		//List<Movie> noOtherMatch = movieRepository.findByFirstGenre(firstAnswer);
 		List<Movie> noOtherMatch = movieRepository.findBySecondNotFirst(secondAnswer, firstAnswer);
@@ -68,7 +64,7 @@ public class AlgoMovieFinder {
 		}
 		
 		if(results.isEmpty()) {
-			results.addAll(movieRepository.findByFirstGenreNot(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer));
+			results.addAll(movieRepository.findByFirstGenre(firstAnswer));
 			} 
 		
 		return results;
