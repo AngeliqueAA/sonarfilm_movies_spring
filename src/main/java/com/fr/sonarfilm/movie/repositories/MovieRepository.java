@@ -25,7 +25,7 @@ public interface MovieRepository extends MongoRepository<Movie, String> {
 	List<Movie> findByFirstGenreAndSecondGenre(@Param("firstGenre") String firstGenre, @Param("secondGenre") String secondGenre);
 	List<Movie> findByFirstGenreAndSecondGenreAndThirdGenreAndFourthGenre(String firstGenre, String secondGenre,String thirdGenre, String fourthGenre);
 	List<Movie> findByFirstGenreAndSecondGenreAndThirdGenre(String firstGenre, String secondGenre,String thirdGenre);
-	List<Movie> findByMovieId(Long movieId);
+	Movie findByMovieId(Long movieId);
 	
 	
 	

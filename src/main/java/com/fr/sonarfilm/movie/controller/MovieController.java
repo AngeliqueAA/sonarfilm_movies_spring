@@ -77,12 +77,9 @@ public class MovieController {
 	
  
 	@GetMapping(value = "/search/movieId/{movieId}")
-	public List<MovieDTO> getMovieByMovieId(@PathVariable("secondGenre") Long movieId) {
-		List<Movie> movies = movieRepository.findByMovieId(movieId);
-		return movies
-				  .stream()
-		          .map(this::convertToDto)
-		          .collect(Collectors.toList());
+	public MovieDTO getMovieByMovieId(@PathVariable("movieId") Long movieId) {
+		return convertToDto(movieRepository.findByMovieId(movieId));
+		
 	}
 	
 	

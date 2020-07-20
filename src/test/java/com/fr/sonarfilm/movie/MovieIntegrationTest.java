@@ -62,7 +62,7 @@ public class MovieIntegrationTest {
 
 		this.mockMvc
 		.perform(MockMvcRequestBuilders.get("/apimovies/title/{title}", "jumanji")
-				.accept(MediaType.APPLICATION_JSON))
+		.accept(MediaType.APPLICATION_JSON))
 		.andDo(print()).andExpect(status().isOk())
 		.andExpect(content().json("[{'title':'jumanji','originalTitle':jumanji,'actors':'robin williams','duration':'112', 'firstGenre':'action'}]"));
 
