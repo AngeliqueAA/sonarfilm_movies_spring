@@ -1,5 +1,6 @@
 package com.fr.sonarfilm.movie.traitement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fr.sonarfilm.movie.models.Movie;
@@ -18,10 +19,9 @@ public class AlgoMovieFinder {
 
 		public List<Movie> whichMovie(String firstAnswer, String secondAnswer, String thirdAnswer, String fourthAnswer) {
 		int movieLimit = 20;
-		
-		
-		
+
 		List<Movie> results = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreAndFourthGenre(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
+		
 		List<Movie> almostPerfect = movieRepository.findByFirstGenreAndSecondGenreAndThirdGenreNot(firstAnswer, secondAnswer, thirdAnswer, fourthAnswer);
 		List<Movie> endMatch = movieRepository.findByFirstGenreNotSecond(firstAnswer, secondAnswer);
 
@@ -54,6 +54,29 @@ public class AlgoMovieFinder {
 			} 
 		
 		return results;
+		
+		}
+		
+		
+		
+		public List<Movie> getSimilarMovie(Long movieId){
+			
+		Movie movie = movieRepository.findByMovieId(movieId);
+			
+		
+		List<Movie> movies = whichMovie(movie.getFirstGenre(), movie.getSecondGenre(), movie.getThirdGenre(), movie.getFourthGenre());
+		List<Movie> similarMovies = new ArrayList<Movie>(); 
+		
+		for(Movie m : movies) {
+			if(!m.getMovieId().equals(movie.getMovieId())) {
+				similarMovies.add(m);
+			}
+			
+		}
+		return similarMovies;
+		
+	
+		
 		
 		}
 
