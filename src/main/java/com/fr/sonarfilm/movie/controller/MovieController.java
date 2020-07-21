@@ -105,4 +105,15 @@ public class MovieController {
 		          .collect(Collectors.toList());
 	}
 	
+	@GetMapping(value = "/quizz/{movieId}")
+	public List<MovieDTO> getSimilarMovie(@PathVariable("movieId") Long movieId) {
+		List <Movie> quizzResults = new AlgoMovieFinder(movieRepository).getSimilarMovie(movieId);
+		List <Movie> movies =  quizzResults.subList(0, 21);
+		return movies
+				  .stream()
+		          .map(this::convertToDto)
+		          .collect(Collectors.toList());
+	}
+	
+	
 }
