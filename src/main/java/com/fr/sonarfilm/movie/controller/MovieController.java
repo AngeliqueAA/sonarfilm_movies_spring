@@ -1,15 +1,20 @@
  package com.fr.sonarfilm.movie.controller;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import com.fr.sonarfilm.movie.dto.MovieDTO;
 import com.fr.sonarfilm.movie.models.Movie;
@@ -44,6 +49,27 @@ public class MovieController {
 				  .stream()
 		          .map(this::convertToDto)
 		          .collect(Collectors.toList());
+	}
+	
+	@GetMapping(value = "/lucky")
+	public MovieDTO getMovieBeingLucky() {
+		long qty = movieRepository.count();
+		int idx = (int)(Math.random()*qty);
+		
+		Page<Movie> moviePage = movieRepository.findAll(PageRequest.of(idx, 1, Sort.unsorted()));
+		Movie movie = null;
+		
+		if(moviePage.hasContent()) {
+			movie = moviePage.getContent().get(0);		
+					}
+		return convertToDto(movie);
+		
+	/*	List<MovieDTO> movies = getAllMovies();
+		Random rand = new Random();
+		MovieDTO randomMovie = movies.get(rand.nextInt(movies.size()));
+		return randomMovie; 
+		*/
+
 	}
 	
 	@GetMapping(value = "/title/{title}")
@@ -82,6 +108,7 @@ public class MovieController {
 		
 	}
 	
+
 	
 	
 	@GetMapping(value = "/search/duration/{duration}")
@@ -108,12 +135,13 @@ public class MovieController {
 	@GetMapping(value = "/quizz/{movieId}")
 	public List<MovieDTO> getSimilarMovie(@PathVariable("movieId") Long movieId) {
 		List <Movie> quizzResults = new AlgoMovieFinder(movieRepository).getSimilarMovie(movieId);
-		List <Movie> movies =  quizzResults.subList(0, 21);
+		List <Movie> movies =  quizzResults.subList(0, 19);
 		return movies
 				  .stream()
 		          .map(this::convertToDto)
 		          .collect(Collectors.toList());
 	}
+	
 	
 	
 }
