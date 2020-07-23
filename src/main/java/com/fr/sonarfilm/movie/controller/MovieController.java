@@ -135,7 +135,7 @@ public class MovieController {
 	@GetMapping(value = "/quizz/{movieId}")
 	public List<MovieDTO> getSimilarMovie(@PathVariable("movieId") Long movieId) {
 		List <Movie> quizzResults = new AlgoMovieFinder(movieRepository).getSimilarMovie(movieId);
-		List <Movie> movies =  quizzResults.subList(0, 21);
+		List <Movie> movies =  quizzResults.subList(0, 19);
 		return movies
 				  .stream()
 		          .map(this::convertToDto)
